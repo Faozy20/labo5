@@ -56,3 +56,12 @@ jobs:
       # Étape 2 - Scan Trivy (avant publication)
       - name: Trivy scan (HIGH/CRITICAL)
         uses: aquasecurity/trivy-action@0.33.1
+        with:
+          image-ref: ${{ env.LOCAL_TAG }}
+          format: table
+          vuln-type: os,library
+          ignore-unfixed: true
+          severity: HIGH,CRITICAL
+          exit-code: '1'  # échoue le job si vulnérabilités HIGH/CRITICAL
+
+      #
