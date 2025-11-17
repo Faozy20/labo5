@@ -1,15 +1,10 @@
-FROM python:3.12-slim
-
-# Empêche l'écriture de fichiers pyc et force des logs non bufferisés
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-
+# Utiliser une image Python officielle
+FROM python:3.10
+# Créer le dossier de travail
 WORKDIR /app
-
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY app.py .
-
+# Copier les fichiers dans le conteneur
+COPY . .
+# Installer les dépendances
+RUN pip install -r requirements.txt
 # Par défaut : lance l'app
 CMD ["python", "app.py"]
