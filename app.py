@@ -1,31 +1,23 @@
 import requests
 
-API_URL = "https://v2.jokeapi.dev/joke/Any?format=json"
 
+def get_random_blague():
+    api_url = "https://v2.jokeapi.dev/joke/Any?safe-mode"
+    reponse = requests.get(api_url)
+    data = reponse.json()
 
-def get_joke():
-    """Interroge JokeAPI et renvoie une blague sous forme de texte."""
-    response = requests.get(API_URL, timeout=5)
-    response.raise_for_status()  # lève une erreur si API KO
-    data = response.json()
+    print("La blague aléatoire :")
 
-    # JokeAPI peut renvoyer 2 formats différents
+    # Blague en une seule partie
     if data.get("type") == "single":
-        return data.get("joke", "Blague indisponible.")
-    else:
-        setup = data.get("setup", "")
-        delivery = data.get("delivery", "")
-        return f"{setup} — {delivery}"
+        print(data["joke"])
 
-
-def main():
-    print("=== JokeAPI Demo ===")
-    try:
-        joke = get_joke()
-        print(joke)
-    except Exception as e:
-        print(f"Erreur lors de l'appel à l'API : {e}")
+    # Blague en deux parties
+    elif data.get("type") == "twopart":
+        print(data["setup"])
+        print(data["delivery"])
 
 
 if __name__ == "__main__":
-    main()
+
+    get_random_blague()
